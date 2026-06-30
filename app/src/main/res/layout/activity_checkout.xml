@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <LinearLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp">
+
+        <!-- Order summary -->
+        <TextView android:id="@+id/tvAmount"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:textStyle="bold" android:text="Total: ₹0" android:textSize="18sp"/>
+
+        <!-- Address (very simple for now) -->
+        <EditText android:id="@+id/etName" android:hint="Full Name"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/etPhone" android:hint="Phone" android:inputType="phone"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText android:id="@+id/etAddress" android:hint="Delivery Address"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:minLines="3" android:gravity="top" />
+
+        <!-- Payment methods -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Payment Method" android:textStyle="bold" android:layout_marginTop="12dp"/>
+        <RadioGroup android:id="@+id/rgPayment" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <RadioButton android:id="@+id/rbUPI" android:text="UPI (Razorpay)" />
+            <RadioButton android:id="@+id/rbCard" android:text="Card (Razorpay)" />
+            <RadioButton android:id="@+id/rbNetbanking" android:text="NetBanking (Razorpay)" />
+            <RadioButton android:id="@+id/rbCOD" android:text="Cash on Delivery" />
+        </RadioGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPayNow"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Pay / Place Order" android:layout_marginTop="12dp"/>
+    </LinearLayout>
+</ScrollView>

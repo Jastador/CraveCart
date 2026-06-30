@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <!-- Top-left Back -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="12dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_arrow_back" />
+
+    <!-- Left categories panel -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategories"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="70dp"
+        android:layout_below="@id/btnBack"
+        android:layout_above="@id/bottomNavMenu"
+        android:paddingBottom="90dp"
+        android:clipToPadding="false"
+        android:background="@android:color/transparent" />
+
+    <!-- Right items list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvItems"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/rvCategories"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="70dp"
+        android:layout_below="@id/btnBack"
+        android:layout_above="@id/bottomNavMenu"
+        android:paddingBottom="90dp"
+        android:clipToPadding="false"
+        android:overScrollMode="ifContentScrolls" />
+
+    <LinearLayout
+        android:id="@+id/bottomNavMenu"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:weightSum="3"
+        android:elevation="8dp">
+
+        <!-- Bottom-right Cart FAB only -->
+        <ImageView
+            android:id="@+id/btnCart"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_fork_knife"
+            android:contentDescription="Cart"
+            android:padding="10dp"/>
+
+        <ImageView
+            android:id="@+id/orderHistoryIcon"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_order_history"
+            android:contentDescription="Order History"
+            android:padding="10dp"/>
+
+        <ImageView
+            android:id="@+id/settingsIcon"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Settings"
+            android:padding="10dp"/>
+
+        <ImageView
+            android:id="@+id/accountIcon"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_account"
+            android:contentDescription="Account"
+            android:padding="10dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

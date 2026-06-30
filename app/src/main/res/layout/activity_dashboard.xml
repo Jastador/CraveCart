@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <!-- Top-right Customer Support -->
+    <ImageView
+        android:id="@+id/supportIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_support"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:contentDescription="Customer Support" />
+
+    <!-- Center Comic Order Button -->
+    <FrameLayout
+        android:id="@+id/orderNowButton"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_centerInParent="true">
+
+        <!-- Comic Star Image -->
+        <ImageView
+            android:id="@+id/starImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/comicstar"
+            android:scaleType="fitCenter"/>
+
+        <!-- "ORDER NOW!" Text -->
+        <TextView
+            android:id="@+id/orderNowText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ORDER NOW!"
+            android:fontFamily="@font/kghappy"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:weightSum="3"
+        android:elevation="8dp">
+
+        <!-- Order History -->
+        <ImageView
+            android:id="@+id/orderHistoryIcon"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_order_history"
+            android:contentDescription="Order History"
+            android:padding="10dp"
+            android:layout_gravity="center" />
+
+        <!-- App Settings -->
+        <ImageView
+            android:id="@+id/settingsIcon"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Settings"
+            android:padding="10dp"
+            android:layout_gravity="center" />
+
+        <!-- Account Settings -->
+        <ImageView
+            android:id="@+id/accountIcon"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_account"
+            android:contentDescription="Account"
+            android:padding="10dp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+</RelativeLayout>

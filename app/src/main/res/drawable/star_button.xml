@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#FFD700"/> <!-- Golden star color -->
+    <corners android:radius="60dp"/> <!-- Optional rounded edges -->
+    <stroke android:width="4dp" android:color="#FF69B4"/> <!-- Funky pink border -->
+</shape>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <!-- App Name -->
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CraveCart"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/collegiateflf"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp" />
+
+        <!-- Email Field -->
+        <EditText
+            android:id="@+id/signUpEmail"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Email"
+            android:fontFamily="@font/monospacetypewriter"
+            android:textSize="15sp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"/>
+
+        <!-- Password Field -->
+        <EditText
+            android:id="@+id/signUpPassword"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Password"
+            android:fontFamily="@font/monospacetypewriter"
+            android:textSize="15sp"
+            android:inputType="textPassword"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/signUpEmail"
+            android:layout_marginTop="20dp" />
+
+        <!-- Confirm Password Field -->
+        <EditText
+            android:id="@+id/signUpConfirmPassword"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Re-enter Password"
+            android:textSize="15sp"
+            android:fontFamily="@font/monospacetypewriter"
+            android:inputType="textPassword"
+            android:background="@drawable/rounded_edittext"
+            android:padding="12dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/signUpPassword"
+            android:layout_marginTop="20dp" />
+
+        <!-- Show Password Checkbox -->
+        <CheckBox
+            android:id="@+id/showPasswordCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Password"
+            android:fontFamily="@font/verilyserifmono"
+            android:textColor="@color/black"
+            android:layout_below="@id/signUpConfirmPassword"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"/>
+
+        <!-- Verify Email Button -->
+        <Button
+            android:id="@+id/btnVerifyEmail"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Verify"
+            android:fontFamily="@font/verilyserifmono"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/showPasswordCheckBox"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/funky_yellow"
+            android:textStyle="bold"/>
+
+        <!-- Sign In Button -->
+        <Button
+            android:id="@+id/btnGoToSignIn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:fontFamily="@font/verilyserifmono"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/btnVerifyEmail"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/funky_yellow"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+</ScrollView>

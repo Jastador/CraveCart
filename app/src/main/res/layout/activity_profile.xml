@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:padding="16dp"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/light_blue">
+
+    <ImageButton android:id="@+id/btnBack" android:layout_width="40dp" android:layout_height="40dp"
+        android:background="@android:color/transparent" android:src="@drawable/ic_arrow_back"/>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Profile" android:textStyle="bold" android:textSize="18sp"/>
+
+    <TextView android:id="@+id/tvEmail" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="12dp" android:text="email@example.com"/>
+
+    <Button android:id="@+id/btnLogout" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="Logout" android:layout_marginTop="16dp"/>
+</LinearLayout>
+
