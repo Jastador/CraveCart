@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,13 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SignUpActivity.class))
         );
 
-        forgotPassword.setOnClickListener(v ->
-                Toast.makeText(
-                        MainActivity.this,
-                        "Password reset will be added next.",
-                        Toast.LENGTH_SHORT
-                ).show()
-        );
+        forgotPassword.setOnClickListener(v -> sendPasswordResetEmail());
     }
 
     private void signInWithEmailAndPassword() {
@@ -94,17 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    setAuthenticationButtonsEnabled(true);
-
-                    if (task.isSuccessful()) {
-                        Toast.makeText(
-                                MainActivity.this,
-                                "Signed in successfully",
-                                Toast.LENGTH_SHORT
-                        ).show();
-
-                        openDashboard();
-                    } else {
+                    if (!task.isSuccessful()) {
+                        setAuthenticationButtonsEnabled(true);
                         passwordField.setError("Incorrect email or password");
                         passwordField.requestFocus();
 
@@ -113,14 +99,72 @@ public class MainActivity extends AppCompatActivity {
                                 "Could not sign in. Check your email and password.",
                                 Toast.LENGTH_LONG
                         ).show();
+                        return;
                     }
+
+                    verifyEmailAndOpenDashboard();
                 });
     }
 
+    private void verifyEmailAndOpenDashboard() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user == null) {
+            setAuthenticationButtonsEnabled(true);
+            Toast.makeText(this, "Could not confirm your account.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        user.reload().addOnCompleteListener(reloadTask -> {
+            setAuthenticationButtonsEnabled(true);
+
+            FirebaseUser refreshedUser = mAuth.getCurrentUser();
+
+            if (!reloadTask.isSuccessful() || refreshedUser == null) {
+                mAuth.signOut();
+
+                Toast.makeText(
+                        MainActivity.this,
+                        "Could not confirm email verification. Check your connection and try again.",
+                        Toast.LENGTH_LONG
+                ).show();
+                return;
+            }
+
+            if (!refreshedUser.isEmailVerified()) {
+                mAuth.useAppLanguage();
+
+                refreshedUser.sendEmailVerification();
+                mAuth.signOut();
+
+                Toast.makeText(
+                        MainActivity.this,
+                        "Verify your email before signing in. A fresh link was requested.",
+                        Toast.LENGTH_LONG
+                ).show();
+                return;
+            }
+
+            Toast.makeText(
+                    MainActivity.this,
+                    "Signed in successfully",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            openDashboard();
+        });
+    }
+
     private void continueAsGuest() {
-        if (mAuth.getCurrentUser() != null) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null && currentUser.isAnonymous()) {
             openDashboard();
             return;
+        }
+
+        if (currentUser != null) {
+            mAuth.signOut();
         }
 
         setAuthenticationButtonsEnabled(false);
@@ -147,9 +191,49 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void sendPasswordResetEmail() {
+        String email = emailField.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            emailField.setError("Enter your email first");
+            emailField.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailField.setError("Enter a valid email address");
+            emailField.requestFocus();
+            return;
+        }
+
+        forgotPassword.setEnabled(false);
+        mAuth.useAppLanguage();
+
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    forgotPassword.setEnabled(true);
+
+                    if (task.isSuccessful()) {
+                        Toast.makeText(
+                                MainActivity.this,
+                                "Password-reset email sent. Check your inbox.",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    } else {
+                        Toast.makeText(
+                                MainActivity.this,
+                                "Could not send reset email. Try again later.",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    }
+                });
+    }
+
     private void setAuthenticationButtonsEnabled(boolean enabled) {
         btnLogin.setEnabled(enabled);
         btnContinueAsGuest.setEnabled(enabled);
+        newUser.setEnabled(enabled);
+        forgotPassword.setEnabled(enabled);
     }
 
     private void openDashboard() {
