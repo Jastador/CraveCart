@@ -1,28 +1,26 @@
 package com.example.cravecart;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    EditText signUpEmail, signUpPassword, signUpConfirmPassword;
-    CheckBox showPasswordCheckBox;
-    Button btnVerifyEmail;
-    FirebaseAuth mAuth;
+    private EditText signUpEmail, signUpPassword, signUpConfirmPassword;
+    private CheckBox showPasswordCheckBox;
+    private Button btnVerifyEmail, btnGoToSignIn;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +32,31 @@ public class SignUpActivity extends AppCompatActivity {
         signUpConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         showPasswordCheckBox = findViewById(R.id.showPasswordCheckBox);
         btnVerifyEmail = findViewById(R.id.btnVerifyEmail);
-        Button btnGoToSignIn = findViewById(R.id.btnGoToSignIn);
-
-        btnGoToSignIn.setOnClickListener(v -> {
-            finish();
-        });
-
+        btnGoToSignIn = findViewById(R.id.btnGoToSignIn);
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Show/Hide Password
+        btnGoToSignIn.setOnClickListener(v -> finish());
+
         showPasswordCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                signUpPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                signUpConfirmPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                signUpPassword.setTransformationMethod(
+                        HideReturnsTransformationMethod.getInstance()
+                );
+                signUpConfirmPassword.setTransformationMethod(
+                        HideReturnsTransformationMethod.getInstance()
+                );
             } else {
-                signUpPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                signUpConfirmPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                signUpPassword.setTransformationMethod(
+                        PasswordTransformationMethod.getInstance()
+                );
+                signUpConfirmPassword.setTransformationMethod(
+                        PasswordTransformationMethod.getInstance()
+                );
             }
+
+            signUpPassword.setSelection(signUpPassword.getText().length());
+            signUpConfirmPassword.setSelection(signUpConfirmPassword.getText().length());
         });
 
         btnVerifyEmail.setOnClickListener(v -> registerUser());
@@ -59,45 +64,96 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void registerUser() {
         String email = signUpEmail.getText().toString().trim();
-        String password = signUpPassword.getText().toString().trim();
-        String confirmPassword = signUpConfirmPassword.getText().toString().trim();
+        String password = signUpPassword.getText().toString();
+        String confirmPassword = signUpConfirmPassword.getText().toString();
 
-        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(email)) {
+            signUpEmail.setError("Enter your email address");
+            signUpEmail.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            signUpEmail.setError("Enter a valid email address");
+            signUpEmail.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            signUpPassword.setError("Enter a password");
+            signUpPassword.requestFocus();
+            return;
+        }
+
+        if (password.length() < 6) {
+            signUpPassword.setError("Password must be at least 6 characters");
+            signUpPassword.requestFocus();
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            signUpConfirmPassword.setError("Passwords do not match");
+            signUpConfirmPassword.requestFocus();
             return;
         }
 
+        setSignUpControlsEnabled(false);
+
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                user.sendEmailVerification()
-                                        .addOnCompleteListener(task1 -> {
-                                            if (task1.isSuccessful()) {
-                                                Toast.makeText(SignUpActivity.this,
-                                                        "Verification email sent! Check your inbox.",
-                                                        Toast.LENGTH_LONG).show();
-                                            } else {
-                                                Toast.makeText(SignUpActivity.this,
-                                                        "Failed to send verification email.",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }
-                        } else {
-                            Toast.makeText(SignUpActivity.this,
-                                    "Sign Up Failed: " + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (!task.isSuccessful()) {
+                        setSignUpControlsEnabled(true);
+
+                        Toast.makeText(
+                                SignUpActivity.this,
+                                "Could not create account. This email may already be registered.",
+                                Toast.LENGTH_LONG
+                        ).show();
+                        return;
                     }
+
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    if (user == null) {
+                        setSignUpControlsEnabled(true);
+
+                        Toast.makeText(
+                                SignUpActivity.this,
+                                "Account was created, but verification could not start.",
+                                Toast.LENGTH_LONG
+                        ).show();
+                        return;
+                    }
+
+                    mAuth.useAppLanguage();
+
+                    user.sendEmailVerification()
+                            .addOnCompleteListener(verificationTask -> {
+                                mAuth.signOut();
+                                setSignUpControlsEnabled(true);
+
+                                if (verificationTask.isSuccessful()) {
+                                    Toast.makeText(
+                                            SignUpActivity.this,
+                                            "Account created. Verify your email, then sign in.",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                } else {
+                                    Toast.makeText(
+                                            SignUpActivity.this,
+                                            "Account created, but verification email failed. Sign in later to request a new link.",
+                                            Toast.LENGTH_LONG
+                                    ).show();
+                                }
+
+                                finish();
+                            });
                 });
+    }
+
+    private void setSignUpControlsEnabled(boolean enabled) {
+        btnVerifyEmail.setEnabled(enabled);
+        btnGoToSignIn.setEnabled(enabled);
+        showPasswordCheckBox.setEnabled(enabled);
     }
 }
