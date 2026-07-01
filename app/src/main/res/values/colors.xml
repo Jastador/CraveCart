@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="light_blue">#ADD8E6</color>
+
+    <!-- Core blue palette -->
+    <color name="app_background">#F5F9FF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_blue">#EDF4FF</color>
+
+    <color name="primary_blue">#2563EB</color>
+    <color name="primary_blue_dark">#1D4ED8</color>
+    <color name="primary_blue_pressed">#1E40AF</color>
+    <color name="sky_blue">#38BDF8</color>
+
+    <color name="soft_blue_border">#D7E6FF</color>
+    <color name="text_primary">#102A43</color>
+    <color name="text_secondary">#64748B</color>
+
+    <color name="success_green">#16A34A</color>
+    <color name="danger_red">#E11D48</color>
+    <color name="disabled_blue">#AFC7F7</color>
+
+    <!-- Old resource names retained so existing layouts recolour safely -->
+    <color name="light_blue">#F5F9FF</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="funky_pink">#FF69B4</color>
-    <color name="funky_yellow">#FFD700</color>
-    <color name="funky_green">#32CD32</color>
+    <color name="black">#102A43</color>
+    <color name="funky_pink">#1D4ED8</color>
+    <color name="funky_yellow">#FFFFFF</color>
+    <color name="funky_green">#2563EB</color>
+
 </resources>

@@ -1,9 +1,34 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.CraveCart" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Base.Theme.CraveCart" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/app_background</item>
+
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/surface_blue</item>
+        <item name="colorOnPrimaryContainer">@color/text_primary</item>
+
+        <item name="colorSecondary">@color/sky_blue</item>
+        <item name="colorOnSecondary">@color/text_primary</item>
+
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/surface_blue</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorOutline">@color/soft_blue_border</item>
+
+        <item name="colorControlActivated">@color/primary_blue</item>
+        <item name="android:colorAccent">@color/primary_blue</item>
+
+        <item name="android:fontFamily">sans</item>
+        <item name="fontFamily">sans</item>
+
+        <item name="android:statusBarColor">@color/app_background</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <style name="Theme.CraveCart" parent="Base.Theme.CraveCart" />
+
 </resources>
